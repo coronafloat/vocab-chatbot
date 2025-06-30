@@ -19,7 +19,7 @@ def get_word_info(word: str, max_examples: int = 3):
         if len(examples) >= max_examples:
             break
     if not examples:
-        examples = ["Contoh tidak tersedia."]
+        examples = ["Example Sentences Are Not Available😣"]
 
     # ── sinonim & antonim ────────────────────────────────────────────────
     synonyms, antonyms = set(), set()

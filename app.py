@@ -4,9 +4,9 @@ from nltk.tokenize import word_tokenize
 from nltk import pos_tag
 from utils.vocal_helper import get_word_info
 from nltk.corpus import stopwords
-nltk.download('punkt')
-nltk.download('averaged_perceptron_tagger_eng')
-nltk.download('stopwords')
+# nltk.download('punkt')
+# nltk.download('averaged_perceptron_tagger_eng')
+# nltk.download('stopwords')
 
 stop_words = set(stopwords.words('english'))
 
