@@ -10,6 +10,7 @@ nltk.download('stopwords')
 
 stop_words = set(stopwords.words('english'))
 
+# PreProcess Function
 def extract_main_keyword(text: str) -> str:
     tokens = word_tokenize(text)
     tokens = [word for word in tokens if word.isalnum()]  # buang tanda baca
@@ -29,20 +30,6 @@ def extract_main_keyword(text: str) -> str:
                 return word.lower()
 
     return tokens_clean[-1].lower()  # fallback: ambil kata terakhir
-
-def extract_keyword_nlp(sentence: str):
-    tokens = word_tokenize(sentence)
-    tagged = pos_tag(tokens)
-
-    # Urutan prioritas: kata kerja dulu, lalu kata benda
-    for word, tag in tagged:
-        if tag.startswith('VB'):  # Verb
-            return word
-    for word, tag in tagged:
-        if tag.startswith('NN'):  # Noun
-            return word
-    return sentence.strip()  # fallback
-
 
 # helper untuk navigasi halaman
 def _nav(step: int):
