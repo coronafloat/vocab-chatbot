@@ -1,5 +1,3 @@
-# app.py (Versi "Memukau")
-
 import streamlit as st
 import nltk
 from nltk.tokenize import word_tokenize
@@ -10,7 +8,7 @@ import time
 
 stop_words = set(stopwords.words('english'))
 
-# --- KONFIGURASI HALAMAN & GAYA (CSS) ---
+# STYLING CONFIG
 
 st.set_page_config(
     page_title="Vocab-Bot Pro",
@@ -20,7 +18,6 @@ st.set_page_config(
 )
 
 def load_css():
-    """Fungsi untuk menyuntikkan CSS kustom."""
     st.markdown("""
         <style>
             /* --- Gaya Umum --- */
@@ -73,7 +70,7 @@ def load_css():
             }
             .synonym-badge {
                 background-color: rgba(4, 170, 109, 0.2); /* Hijau */
-                color: #04AA6D;
+                color: #FFF;
                 border: 1px solid #04AA6D;
             }
             .antonym-badge {
@@ -87,7 +84,7 @@ def load_css():
 # Panggil CSS Loader
 load_css()
 
-# --- FUNGSI UNTUK SETIAP HALAMAN/MENU ---
+# FUNGSI UNTUK SETIAP HALAMAN/MENU
 
 def run_word_lookup_page():
     """Menjalankan logika untuk halaman 'Word Lookup' dengan UI baru."""
@@ -117,7 +114,7 @@ def run_word_lookup_page():
         st.info("Start by typing a word or a question in the search box above!")
         st.stop()
     
-    # --- Tampilan Hasil dengan Kartu dan Tab ---
+    # Tampilan Hasil dengan Kartu dan Tab
     info = st.session_state.info
     st.markdown(f"## {st.session_state.current_word.capitalize()}")
 
@@ -181,7 +178,7 @@ def run_vocabulary_improvement_page():
             st.stop()
 
         with st.spinner("Analyzing your sentence..."):
-            time.sleep(1) # Efek dramatis :)
+            time.sleep(1)
             tokens = word_tokenize(sentence)
             tagged_words = pos_tag(tokens)
             
@@ -211,11 +208,11 @@ def run_vocabulary_improvement_page():
         if not found_suggestion:
             st.success("✨ Your vocabulary is already quite diverse! I couldn't find any simple alternatives.")
 
-# --- FUNGSI HELPER & STRUKTUR UTAMA ---
+# FUNGSI HELPER & STRUKTUR UTAMA
 # (Pastikan fungsi ini ada sebelum dipanggil)
 @st.cache_data
 def extract_main_keyword(text: str) -> str:
-    """Mengekstrak kata kunci utama dari teks input (untuk halaman Word Lookup)."""
+    # Mengekstrak kata kunci utama dari teks input (untuk halaman Word Lookup)
     tokens = word_tokenize(text)
     tokens = [word for word in tokens if word.isalnum()]
     stop_words_eng = set(stopwords.words('english'))
@@ -229,7 +226,7 @@ def extract_main_keyword(text: str) -> str:
                 return word.lower()
     return tokens_clean[-1].lower()
 
-# --- Navigasi di Sidebar ---
+# Sidebar 
 st.sidebar.title("✨ Vocab-Bot Pro")
 st.sidebar.write("Your personal AI vocabulary assistant.")
 menu_selection = st.sidebar.radio(
