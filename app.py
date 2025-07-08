@@ -9,16 +9,32 @@ import time
 @st.cache_resource
 def setup_nltk():
     """
-    Mengunduh semua resource NLTK yang diperlukan.
-    Decorator @st.cache_resource memastikan fungsi ini hanya berjalan sekali.
+    Fungsi yang lebih kuat untuk memeriksa dan mengunduh resource NLTK.
+    Menghapus 'quiet=True' agar kita bisa melihat prosesnya di log.
     """
-    print("🚀 Sedang mengunduh resource NLTK...")
-    nltk.download('punkt', quiet=True) # Untuk tokenisasi
-    nltk.download('averaged_perceptron_tagger', quiet=True) # Untuk POS Tagging
-    nltk.download('stopwords', quiet=True) # Untuk stopwords
-    nltk.download('wordnet', quiet=True) # Untuk sinonim/antonim
-    print("✅ Resource NLTK siap digunakan.")
+    # Daftar resource yang dibutuhkan oleh aplikasi Anda
+    required_resources = {
+        "tokenizers/punkt": "punkt",
+        "taggers/averaged_perceptron_tagger": "averaged_perceptron_tagger",
+        "corpora/stopwords": "stopwords",
+        "corpora/wordnet": "wordnet"
+    }
 
+    st.write("---") # Pemisah visual sementara untuk debugging
+    st.write("🔧 **Memeriksa Ketersediaan Resource NLTK...**")
+    
+    for path, resource_id in required_resources.items():
+        try:
+            # Cek apakah resource sudah ada
+            nltk.data.find(path)
+            st.write(f"✅ Resource `{resource_id}` sudah tersedia.")
+        except LookupError:
+            # Jika tidak ada, unduh
+            st.write(f"🔽 Resource `{resource_id}` tidak ditemukan, sedang mengunduh...")
+            nltk.download(resource_id)
+            st.write(f"👍 Unduhan `{resource_id}` selesai.")
+            
+    st.write("---")
 # Panggil fungsi setup di awal aplikasi
 setup_nltk()
 
