@@ -40,6 +40,7 @@ from utils.vocal_helper import get_word_info
 nltk.download('wordnet')
 nltk.download('punkt_tab', quiet=True)
 nltk.download('stopwords', quiet=True)
+nltk.download('averaged_perceptron_tagger_eng')
 nltk.download('averaged_perceptron_tagger', quiet=True)
 # Siapkan stopwords sekali saja setelah diunduh
 stop_words = set(stopwords.words('english'))
