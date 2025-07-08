@@ -2,17 +2,23 @@ import streamlit as st
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk import pos_tag
-from utils.vocal_helper import get_word_info
 from nltk.corpus import stopwords
 import time
 
+# Pastikan file ini ada di folder 'utils/vocal_helper.py'
+# Dan pastikan ada file __init__.py di dalam folder 'utils'
+from utils.vocal_helper import get_word_info 
+
+# ==============================================================================
+# FUNGSI SETUP NLTK YANG SUDAH BENAR DAN EFISIEN
+# ==============================================================================
 @st.cache_resource
 def setup_nltk():
     """
-    Fungsi yang lebih kuat untuk memeriksa dan mengunduh resource NLTK.
-    Menghapus 'quiet=True' agar kita bisa melihat prosesnya di log.
+    Mengunduh semua resource NLTK yang diperlukan.
+    Decorator @st.cache_resource memastikan fungsi ini hanya berjalan sekali.
     """
-    # Daftar resource yang dibutuhkan oleh aplikasi Anda
+    # Daftar resource yang dibutuhkan oleh aplikasi Anda (dengan nama yang benar)
     required_resources = {
         "tokenizers/punkt": "punkt",
         "taggers/averaged_perceptron_tagger": "averaged_perceptron_tagger",
@@ -20,28 +26,22 @@ def setup_nltk():
         "corpora/wordnet": "wordnet"
     }
 
-    st.write("---") # Pemisah visual sementara untuk debugging
-    st.write("🔧 **Memeriksa Ketersediaan Resource NLTK...**")
-    
+    # Loop untuk memeriksa dan mengunduh jika diperlukan
     for path, resource_id in required_resources.items():
         try:
-            # Cek apakah resource sudah ada
             nltk.data.find(path)
-            st.write(f"✅ Resource `{resource_id}` sudah tersedia.")
         except LookupError:
-            # Jika tidak ada, unduh
-            st.write(f"🔽 Resource `{resource_id}` tidak ditemukan, sedang mengunduh...")
+            print(f"Mengunduh resource NLTK: {resource_id}")
             nltk.download(resource_id)
-            st.write(f"👍 Unduhan `{resource_id}` selesai.")
-            
-    st.write("---")
+
 # Panggil fungsi setup di awal aplikasi
 setup_nltk()
+# ==============================================================================
 
+# Siapkan stopwords sekali saja setelah diunduh
 stop_words = set(stopwords.words('english'))
 
 # STYLING CONFIG
-
 st.set_page_config(
     page_title="Vocab-Bot Pro",
     page_icon="✨",
@@ -53,80 +53,52 @@ def load_css():
     st.markdown("""
         <style>
             /* --- Gaya Umum --- */
-            .stApp {
-                background-color: #0e1117;
-            }
+            .stApp { background-color: #0e1117; }
             .stButton>button {
-                border-radius: 10px;
-                border: 2px solid #6c63ff;
-                color: #6c63ff;
-                background-color: transparent;
+                border-radius: 10px; border: 2px solid #6c63ff;
+                color: #6c63ff; background-color: transparent;
                 transition: all 0.2s ease-in-out;
             }
             .stButton>button:hover {
-                border-color: #fafafa;
-                color: #fafafa;
-                background-color: #6c63ff;
+                border-color: #fafafa; color: #fafafa; background-color: #6c63ff;
             }
             .stButton>button:disabled {
-                border-color: #444;
-                color: #444;
-                background-color: transparent;
+                border-color: #444; color: #444; background-color: transparent;
             }
-
             /* --- Gaya Kartu --- */
             .card {
-                background-color: #262730;
-                border-radius: 15px;
-                padding: 25px;
-                margin-bottom: 20px;
-                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                background-color: #262730; border-radius: 15px; padding: 25px;
+                margin-bottom: 20px; box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
                 transition: 0.3s;
             }
-            .card:hover {
-                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-            }
-            
+            .card:hover { box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); }
             /* --- Gaya Badge untuk Sinonim/Antonim --- */
-            .badge-container {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 8px;
-            }
+            .badge-container { display: flex; flex-wrap: wrap; gap: 8px; }
             .badge {
-                display: inline-block;
-                padding: 5px 12px;
-                border-radius: 15px;
-                font-weight: 500;
-                font-size: 14px;
+                display: inline-block; padding: 5px 12px; border-radius: 15px;
+                font-weight: 500; font-size: 14px;
             }
             .synonym-badge {
-                background-color: rgba(4, 170, 109, 0.2); /* Hijau */
-                color: #FFF;
+                background-color: rgba(4, 170, 109, 0.2); color: #FFF;
                 border: 1px solid #04AA6D;
             }
             .antonym-badge {
-                background-color: rgba(255, 71, 87, 0.2); /* Merah */
-                color: #FF4757;
+                background-color: rgba(255, 71, 87, 0.2); color: #FF4757;
                 border: 1px solid #FF4757;
             }
         </style>
     """, unsafe_allow_html=True)
 
-# Panggil CSS Loader
 load_css()
 
-# FUNGSI UNTUK SETIAP HALAMAN/MENU
-
 def run_word_lookup_page():
-    """Menjalankan logika untuk halaman 'Word Lookup' dengan UI baru."""
     st.title("📖 Word Lookup Pro")
     st.write("Get detailed information about any English word.")
     
     input_text = st.text_input("🔍 Ask me about a word...", key="word_lookup_input").strip()
     
     if "current_word" in st.session_state and not input_text:
-        del st.session_state.current_word # Hapus kata jika input kosong
+        del st.session_state.current_word
 
     word = extract_main_keyword(input_text)
 
@@ -141,16 +113,15 @@ def run_word_lookup_page():
                 st.session_state.page = 0
             else:
                 st.error(f"🚫 Oops! I couldn't find any information for '{word}'. Please try another.")
+                if "current_word" in st.session_state: del st.session_state.current_word
                 st.stop()
     else:
         st.info("Start by typing a word or a question in the search box above!")
         st.stop()
     
-    # Tampilan Hasil dengan Kartu dan Tab
     info = st.session_state.info
     st.markdown(f"## {st.session_state.current_word.capitalize()}")
 
-    # Gunakan tab untuk organisasi yang lebih baik
     tab1, tab2 = st.tabs(["📝 Definition & Examples", "🔄 Related Words"])
 
     with tab1:
@@ -165,7 +136,6 @@ def run_word_lookup_page():
         for i, ex in enumerate(info["examples"][start_idx:end_idx], start=start_idx + 1):
             st.markdown(f"<div class='card' style='padding: 15px;'>{i}. <i>{ex}</i></div>", unsafe_allow_html=True)
         
-        # Navigasi halaman contoh
         total_examples = len(info["examples"])
         max_page = (total_examples - 1) // PAGE_SIZE
         if total_examples > PAGE_SIZE:
@@ -198,7 +168,6 @@ def run_word_lookup_page():
                 st.markdown("<div class='card'><p>—</p></div>", unsafe_allow_html=True)
 
 def run_vocabulary_improvement_page():
-    """Menjalankan logika untuk halaman 'Vocabulary Improvement' dengan UI baru."""
     st.title("🚀 Vocabulary Expansion")
     st.write("Elevate your writing by discovering more sophisticated words.")
     
@@ -240,16 +209,15 @@ def run_vocabulary_improvement_page():
         if not found_suggestion:
             st.success("✨ Your vocabulary is already quite diverse! I couldn't find any simple alternatives.")
 
-# FUNGSI HELPER & STRUKTUR UTAMA
-# (Pastikan fungsi ini ada sebelum dipanggil)
 @st.cache_data
 def extract_main_keyword(text: str) -> str:
-    # Mengekstrak kata kunci utama dari teks input (untuk halaman Word Lookup)
+    if not text:
+        return None
     tokens = word_tokenize(text)
     tokens = [word for word in tokens if word.isalnum()]
-    stop_words_eng = set(stopwords.words('english'))
-    tokens_clean = [word for word in tokens if word.lower() not in stop_words_eng]
-    if not tokens_clean: return None
+    tokens_clean = [word for word in tokens if word.lower() not in stop_words]
+    if not tokens_clean: 
+        return tokens[-1].lower() if tokens else None
     tagged = pos_tag(tokens_clean)
     priority_tags = ['JJ', 'NN', 'VB']
     for tag_prefix in priority_tags:
