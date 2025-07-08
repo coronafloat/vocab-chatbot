@@ -6,6 +6,7 @@ from utils.vocal_helper import get_word_info
 from nltk.corpus import stopwords
 import time
 nltk.download('punkt_tab')
+nltk.download('averaged_perceptron_tagger_eng')
 nltk.download('averaged_perceptron_tagger')
 nltk.download('stopwords')
 nltk.download('wordnet')
