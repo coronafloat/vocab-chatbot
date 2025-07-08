@@ -9,6 +9,7 @@ nltk.download('punkt_tab')
 nltk.download('averaged_perceptron_tagger')
 nltk.download('stopwords')
 nltk.download('wordnet')
+nltk.download('averaged_perceptron_tagger_eng')
 
 stop_words = set(stopwords.words('english'))
 
