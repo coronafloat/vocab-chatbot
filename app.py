@@ -12,32 +12,34 @@ from utils.vocal_helper import get_word_info
 # ==============================================================================
 # FUNGSI SETUP NLTK YANG SUDAH BENAR DAN EFISIEN
 # ==============================================================================
-@st.cache_resource
-def setup_nltk():
-    """
-    Mengunduh semua resource NLTK yang diperlukan.
-    Decorator @st.cache_resource memastikan fungsi ini hanya berjalan sekali.
-    """
-    # Daftar resource yang dibutuhkan oleh aplikasi Anda (dengan nama yang benar)
-    required_resources = {
-        "tokenizers/punkt": "punkt",
-        "taggers/averaged_perceptron_tagger": "averaged_perceptron_tagger",
-        "corpora/stopwords": "stopwords",
-        "corpora/wordnet": "wordnet"
-    }
+# @st.cache_resource
+# def setup_nltk():
+#     """
+#     Mengunduh semua resource NLTK yang diperlukan.
+#     Decorator @st.cache_resource memastikan fungsi ini hanya berjalan sekali.
+#     """
+#     # Daftar resource yang dibutuhkan oleh aplikasi Anda (dengan nama yang benar)
+#     required_resources = {
+#         "tokenizers/punkt": "punkt",
+#         "taggers/averaged_perceptron_tagger": "averaged_perceptron_tagger",
+#         "corpora/stopwords": "stopwords",
+#         "corpora/wordnet": "wordnet"
+#     }
 
-    # Loop untuk memeriksa dan mengunduh jika diperlukan
-    for path, resource_id in required_resources.items():
-        try:
-            nltk.data.find(path)
-        except LookupError:
-            print(f"Mengunduh resource NLTK: {resource_id}")
-            nltk.download(resource_id)
+#     # Loop untuk memeriksa dan mengunduh jika diperlukan
+#     for path, resource_id in required_resources.items():
+#         try:
+#             nltk.data.find(path)
+#         except LookupError:
+#             print(f"Mengunduh resource NLTK: {resource_id}")
+#             nltk.download(resource_id)
 
-# Panggil fungsi setup di awal aplikasi
-setup_nltk()
+# # Panggil fungsi setup di awal aplikasi
+# setup_nltk()
 # ==============================================================================
-
+nltk.download('punkt', quiet=True)
+nltk.download('stopwords', quiet=True)
+nltk.download('averaged_perceptron_tagger', quiet=True)
 # Siapkan stopwords sekali saja setelah diunduh
 stop_words = set(stopwords.words('english'))
 
