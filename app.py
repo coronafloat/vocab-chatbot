@@ -5,6 +5,10 @@ from nltk import pos_tag
 from utils.vocal_helper import get_word_info
 from nltk.corpus import stopwords
 import time
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('stopwords')
+nltk.download('wordnet')
 
 stop_words = set(stopwords.words('english'))
 
