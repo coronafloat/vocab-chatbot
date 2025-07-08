@@ -14,7 +14,7 @@ def setup_nltk():
     """
     # Daftar resource yang dibutuhkan oleh aplikasi Anda
     required_resources = {
-        "tokenizers/punkt": "punkt",
+        "tokenizers/punkt": "punkt_tab",
         "taggers/averaged_perceptron_tagger": "averaged_perceptron_tagger",
         "corpora/stopwords": "stopwords",
         "corpora/wordnet": "wordnet"
