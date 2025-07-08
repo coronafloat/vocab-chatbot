@@ -5,11 +5,22 @@ from nltk import pos_tag
 from utils.vocal_helper import get_word_info
 from nltk.corpus import stopwords
 import time
-nltk.download('punkt_tab')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('averaged_perceptron_tagger_eng')
-nltk.download('stopwords')
-nltk.download('wordnet')
+
+@st.cache_resource
+def setup_nltk():
+    """
+    Mengunduh semua resource NLTK yang diperlukan.
+    Decorator @st.cache_resource memastikan fungsi ini hanya berjalan sekali.
+    """
+    print("🚀 Sedang mengunduh resource NLTK...")
+    nltk.download('punkt', quiet=True) # Untuk tokenisasi
+    nltk.download('averaged_perceptron_tagger', quiet=True) # Untuk POS Tagging
+    nltk.download('stopwords', quiet=True) # Untuk stopwords
+    nltk.download('wordnet', quiet=True) # Untuk sinonim/antonim
+    print("✅ Resource NLTK siap digunakan.")
+
+# Panggil fungsi setup di awal aplikasi
+setup_nltk()
 
 stop_words = set(stopwords.words('english'))
 
