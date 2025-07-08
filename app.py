@@ -37,6 +37,7 @@ from utils.vocal_helper import get_word_info
 # # Panggil fungsi setup di awal aplikasi
 # setup_nltk()
 # ==============================================================================
+nltk.download('wordnet')
 nltk.download('punkt_tab', quiet=True)
 nltk.download('stopwords', quiet=True)
 nltk.download('averaged_perceptron_tagger', quiet=True)
