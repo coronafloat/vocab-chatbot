@@ -51,11 +51,11 @@ This is a simple NLP-powered chatbot built with Python and Streamlit. It is desi
 
 2. **Create and Activate a Virtual Environment**
 
-    Create and activate your virtual environment:
+    Create and activate your virtual environment (bash terminal):
     ```bash
     python -m venv venv
     # Windows
-    venv/Scripts/activate
+    source venv/Scripts/activate
     # macOS/Linux
     source venv/bin/activate
 
