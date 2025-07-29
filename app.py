@@ -4,7 +4,8 @@ from nltk.tokenize import word_tokenize
 from nltk import pos_tag
 from nltk.corpus import stopwords
 import time
-from utils.vocal_helper import get_word_info 
+from utils.vocal_helper import get_word_info
+from utils.grammar_checker import check_grammar 
 
 nltk.download('wordnet')
 nltk.download('punkt_tab', quiet=True)
@@ -140,10 +141,13 @@ def run_word_lookup_page():
                 st.markdown("<div class='card'><p>—</p></div>", unsafe_allow_html=True)
 
 def run_vocabulary_improvement_page():
-    st.title("🚀 Vocabulary Expansion")
-    st.write("Elevate your writing by discovering more sophisticated words.")
+    st.title("🚀 Vocabulary Expansion & Grammar Checker")
+    st.write("Elevate your writing by discovering more sophisticated words and ensuring grammatical correctness.")
     
     sentence = st.text_area("Enter your sentence here:", height=150, key="vocab_improve_input", placeholder="e.g., The big dog runs fast...")
+
+    # Checkbox Grammar Checking
+    grammar_check = st.checkbox("🧠 Perform Grammar Check")
 
     if st.button("✨ Analyze & Improve"):
         if not sentence.strip():
@@ -152,6 +156,15 @@ def run_vocabulary_improvement_page():
 
         with st.spinner("Analyzing your sentence..."):
             time.sleep(1)
+
+            # Grammar Check Result
+            if grammar_check:
+                st.subheader("✅ Grammar-Corrected Sentence:")
+                corrected = check_grammar(sentence)
+                st.success(corrected)
+                sentence = corrected  # Use corrected sentence for vocab improvement
+
+            # Vocabulary Suggestion
             tokens = word_tokenize(sentence)
             tagged_words = pos_tag(tokens)
             
@@ -166,7 +179,7 @@ def run_vocabulary_improvement_page():
             st.success("✅ Your sentence is concise! I couldn't find any common words to improve.")
             st.stop()
         
-        st.subheader("Suggestions for Improvement:")
+        st.subheader("🪄 Suggestions for Vocabulary Improvement:")
         found_suggestion = False
         for word in unique_candidates:
             info = get_word_info(word.lower(), max_examples=0)
@@ -180,7 +193,6 @@ def run_vocabulary_improvement_page():
         
         if not found_suggestion:
             st.success("✨ Your vocabulary is already quite diverse! I couldn't find any simple alternatives.")
-
 @st.cache_data
 def extract_main_keyword(text: str) -> str:
     if not text:
