@@ -19,5 +19,4 @@ def check_grammar(text: str) -> str:
         }
     )
 
-    # Gabungkan output jika berupa list
     return "".join(output).strip() if isinstance(output, list) else str(output).strip()

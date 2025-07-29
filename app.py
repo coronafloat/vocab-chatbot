@@ -162,7 +162,7 @@ def run_vocabulary_improvement_page():
                 st.subheader("✅ Grammar-Corrected Sentence:")
                 corrected = check_grammar(sentence)
                 st.success(corrected)
-                sentence = corrected  # Use corrected sentence for vocab improvement
+                sentence = corrected
 
             # Vocabulary Suggestion
             tokens = word_tokenize(sentence)
