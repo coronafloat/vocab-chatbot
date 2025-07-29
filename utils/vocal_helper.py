@@ -5,10 +5,9 @@ def get_word_info(word: str, max_examples: int = 3):
     if not synsets:
         return None
 
-    # ── definisi & contoh ────────────────────────────────────────────────
     definition = synsets[0].definition()
 
-    # kumpulkan semua contoh unik, batasi ke 'max_examples'
+    # Examples
     examples = []
     for syn in synsets:
         for ex in syn.examples():
@@ -21,7 +20,7 @@ def get_word_info(word: str, max_examples: int = 3):
     if not examples:
         examples = ["Example Sentences Are Not Available😣"]
 
-    # ── sinonim & antonim ────────────────────────────────────────────────
+    # Synonyms & Antonyms
     synonyms, antonyms = set(), set()
     for syn in synsets:
         for lemma in syn.lemmas():
@@ -31,7 +30,7 @@ def get_word_info(word: str, max_examples: int = 3):
 
     return {
         "definition": definition,
-        "examples": examples,          # ← list, bukan string tunggal
+        "examples": examples,
         "synonyms": list(synonyms)[:5],
         "antonyms": list(antonyms)[:5],
     }
