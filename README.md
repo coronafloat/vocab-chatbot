@@ -36,7 +36,8 @@ This is a simple NLP-powered chatbot built with Python and Streamlit. It is desi
 - `app.py` - Main Streamlit application
 - `utils/` - Utility modules
   - `vocab_helper.py` - Word processing and lookup functions
-  - `grammar_checker.py` - grammar checker funtion using IBM Granite via API from Replicate
+  - `grammar_checker.py` - Grammar checker funtion using IBM Granite via API from Replicate
+  - `main_keyword.py` - Get and extract main keyword, if the input is a sentence
 - `venv/` - Virtual environment (protected by .gitignore)
 - `requirements.txt` - Project dependencies
 - `.gitignore` - Git ignore rules
