@@ -89,8 +89,8 @@ This is a simple NLP-powered chatbot built with Python and Streamlit. It is desi
 This project strategically leverages the ibm-granite/granite-3.3-8b-instruct AI model for two highly relevant purposes: optimizing code performance and enabling a core application feature. This use of AI provides a tangible impact on the application's development and functionality.
 
 1. **Code Generation and Optimization Using IBM Granite**
-    - Faster Performance: The AI-optimized code, which uses generators and itertools.islice, significantly reduces unnecessary iterations. This results in faster response times when a user searches for a word, improving the overall user experience.
+    - Faster Performance: The AI-optimized code, which uses generators and itertools.islice, significantly reduces unnecessary iterations in **get_word_info()** function on `vocal_helper.py` file. This results in faster response times when a user searches for a word, improving the overall user experience.
     - Readability and Maintenance: The refactoring makes the code more concise and "Pythonic". As a result, the codebase is easier to read, debug, and maintain in the future.
-2. **Using and Implement IBM Granite Models**
+2. **Using and Implement IBM Granite Model**
     - Access to Advanced Technology: Without leveraging this pre-trained AI model, implementing a reliable grammar checker feature would have been prohibitively complex and resource-intensive, making it impractical for this project.
     - Enhanced Application Value: The use of AI enables a core feature that directly helps users learn English. This drastically increases the application's value and utility, transforming it from a simple dictionary into a more comprehensive learning assistant.
