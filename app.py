@@ -5,7 +5,8 @@ from nltk import pos_tag
 from nltk.corpus import stopwords
 import time
 from utils.vocal_helper import get_word_info
-from utils.grammar_checker import check_grammar 
+from utils.grammar_checker import check_grammar
+from utils.main_keyword import extract_main_keyword 
 
 nltk.download('wordnet')
 nltk.download('punkt_tab', quiet=True)
@@ -193,22 +194,6 @@ def run_vocabulary_improvement_page():
         
         if not found_suggestion:
             st.success("✨ Your vocabulary is already quite diverse! I couldn't find any simple alternatives.")
-@st.cache_data
-def extract_main_keyword(text: str) -> str:
-    if not text:
-        return None
-    tokens = word_tokenize(text)
-    tokens = [word for word in tokens if word.isalnum()]
-    tokens_clean = [word for word in tokens if word.lower() not in stop_words]
-    if not tokens_clean: 
-        return tokens[-1].lower() if tokens else None
-    tagged = pos_tag(tokens_clean)
-    priority_tags = ['JJ', 'NN', 'VB']
-    for tag_prefix in priority_tags:
-        for word, tag in reversed(tagged):
-            if tag.startswith(tag_prefix):
-                return word.lower()
-    return tokens_clean[-1].lower()
 
 # Sidebar 
 st.sidebar.title("✨ Vocab-Bot Pro")
