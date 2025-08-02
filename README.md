@@ -13,7 +13,6 @@ This is a simple NLP-powered chatbot built with Python and Streamlit. It is desi
 ## 🚀 Features
 
 - 🔎 Search any English word to get its definition, synonyms, antonyms, and examples.
-- 🧠 Interactive navigation of example sentences using **Next** and **Previous** buttons.
 - 💬 User-friendly interface powered by **Streamlit**.
 - 📖 Uses **WordNet** via the **NLTK** library for lexical information.
 - 🪄 Uses **ibm-granite/granite-3.3-8b-instruct** via the API from **REPLICATE** for grammar checker feature. 
@@ -75,7 +74,7 @@ This is a simple NLP-powered chatbot built with Python and Streamlit. It is desi
 
 4. **API TOKEN Set Up**
     
-    Change filename from secrets.toml.example to secrets.toml and fill the value of your API TOKEN
+    Change filename from `secrets.toml.example` to `secrets.toml` and fill the value of your API TOKEN
 
 5. **Run the vocab-chatbot**
 
