@@ -127,14 +127,14 @@ def run_word_lookup_page():
     with tab2:
         col1, col2 = st.columns(2)
         with col1:
-            st.subheader("✅ Synonyms")
+            st.subheader("📗 Synonyms")
             if info['synonyms']:
                 badge_html = "".join([f"<span class='badge synonym-badge'>{s}</span>" for s in info['synonyms']])
                 st.markdown(f"<div class='card badge-container'>{badge_html}</div>", unsafe_allow_html=True)
             else:
                 st.markdown("<div class='card'><p>—</p></div>", unsafe_allow_html=True)
         with col2:
-            st.subheader("❌ Antonyms")
+            st.subheader("📕 Antonyms")
             if info['antonyms']:
                 badge_html = "".join([f"<span class='badge antonym-badge'>{a}</span>" for a in info['antonyms']])
                 st.markdown(f"<div class='card badge-container'>{badge_html}</div>", unsafe_allow_html=True)
