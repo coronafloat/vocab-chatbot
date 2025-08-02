@@ -4,7 +4,9 @@ from nltk.tokenize import word_tokenize
 from nltk import pos_tag
 from nltk.corpus import stopwords
 import time
-from utils.vocal_helper import get_word_info 
+from utils.vocal_helper import get_word_info
+from utils.grammar_checker import check_grammar
+from utils.main_keyword import extract_main_keyword 
 
 nltk.download('wordnet')
 nltk.download('punkt_tab', quiet=True)
@@ -125,14 +127,14 @@ def run_word_lookup_page():
     with tab2:
         col1, col2 = st.columns(2)
         with col1:
-            st.subheader("✅ Synonyms")
+            st.subheader("📗 Synonyms")
             if info['synonyms']:
                 badge_html = "".join([f"<span class='badge synonym-badge'>{s}</span>" for s in info['synonyms']])
                 st.markdown(f"<div class='card badge-container'>{badge_html}</div>", unsafe_allow_html=True)
             else:
                 st.markdown("<div class='card'><p>—</p></div>", unsafe_allow_html=True)
         with col2:
-            st.subheader("❌ Antonyms")
+            st.subheader("📕 Antonyms")
             if info['antonyms']:
                 badge_html = "".join([f"<span class='badge antonym-badge'>{a}</span>" for a in info['antonyms']])
                 st.markdown(f"<div class='card badge-container'>{badge_html}</div>", unsafe_allow_html=True)
@@ -140,10 +142,13 @@ def run_word_lookup_page():
                 st.markdown("<div class='card'><p>—</p></div>", unsafe_allow_html=True)
 
 def run_vocabulary_improvement_page():
-    st.title("🚀 Vocabulary Expansion")
-    st.write("Elevate your writing by discovering more sophisticated words.")
+    st.title("🚀 Vocabulary Expansion & Grammar Checker")
+    st.write("Elevate your writing by discovering more sophisticated words and ensuring grammatical correctness.")
     
     sentence = st.text_area("Enter your sentence here:", height=150, key="vocab_improve_input", placeholder="e.g., The big dog runs fast...")
+
+    # Checkbox Grammar Checking
+    grammar_check = st.checkbox("🧠 Perform Grammar Check")
 
     if st.button("✨ Analyze & Improve"):
         if not sentence.strip():
@@ -152,6 +157,15 @@ def run_vocabulary_improvement_page():
 
         with st.spinner("Analyzing your sentence..."):
             time.sleep(1)
+
+            # Grammar Check Result
+            if grammar_check:
+                st.subheader("✅ Grammar-Corrected Sentence:")
+                corrected = check_grammar(sentence)
+                st.success(corrected)
+                sentence = corrected
+
+            # Vocabulary Suggestion
             tokens = word_tokenize(sentence)
             tagged_words = pos_tag(tokens)
             
@@ -166,7 +180,7 @@ def run_vocabulary_improvement_page():
             st.success("✅ Your sentence is concise! I couldn't find any common words to improve.")
             st.stop()
         
-        st.subheader("Suggestions for Improvement:")
+        st.subheader("🪄 Suggestions for Vocabulary Improvement:")
         found_suggestion = False
         for word in unique_candidates:
             info = get_word_info(word.lower(), max_examples=0)
@@ -180,23 +194,6 @@ def run_vocabulary_improvement_page():
         
         if not found_suggestion:
             st.success("✨ Your vocabulary is already quite diverse! I couldn't find any simple alternatives.")
-
-@st.cache_data
-def extract_main_keyword(text: str) -> str:
-    if not text:
-        return None
-    tokens = word_tokenize(text)
-    tokens = [word for word in tokens if word.isalnum()]
-    tokens_clean = [word for word in tokens if word.lower() not in stop_words]
-    if not tokens_clean: 
-        return tokens[-1].lower() if tokens else None
-    tagged = pos_tag(tokens_clean)
-    priority_tags = ['JJ', 'NN', 'VB']
-    for tag_prefix in priority_tags:
-        for word, tag in reversed(tagged):
-            if tag.startswith(tag_prefix):
-                return word.lower()
-    return tokens_clean[-1].lower()
 
 # Sidebar 
 st.sidebar.title("✨ Vocab-Bot Pro")
