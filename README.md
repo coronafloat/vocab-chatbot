@@ -74,7 +74,7 @@ This is a simple NLP-powered chatbot built with Python and Streamlit. It is desi
 
 4. **API TOKEN Set Up**
     
-    Change filename from secrets.toml.example to secrets.toml and fill the value of your API TOKEN
+    Change filename from `secrets.toml.example` to `secrets.toml` and fill the value of your API TOKEN
 
 5. **Run the vocab-chatbot**
 
