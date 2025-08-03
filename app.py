@@ -1,5 +1,5 @@
-import streamlit as st
 import nltk
+import streamlit as st
 from nltk.tokenize import word_tokenize
 from nltk import pos_tag
 from nltk.corpus import stopwords
@@ -8,9 +8,9 @@ from utils.vocal_helper import get_word_info
 from utils.grammar_checker import check_grammar
 from utils.main_keyword import extract_main_keyword 
 
+nltk.download('stopwords', quiet=True)
 nltk.download('wordnet')
 nltk.download('punkt_tab', quiet=True)
-nltk.download('stopwords', quiet=True)
 nltk.download('averaged_perceptron_tagger_eng')
 
 stop_words = set(stopwords.words('english'))
